@@ -6,16 +6,15 @@ from dotenv import load_dotenv
 
 from sampler import generate_if_missing
 from embedder import embed_outputs
-from divergence import compute_divergence, evaluate_with_bootstrap
+from divergence import compute_divergence
 
 # Cargar API key desde .env para que funcione sampler
 load_dotenv()
 
 # Configuración
 BASELINE_DIR = "baseline_prompts"
-OUTPUT_DIR = "outputs"
-OUTFILE = "baseline_thresholds.json"
-N_BOOTSTRAP = 100
+OUTPUT_DIR = "outputs_t2"
+OUTFILE = "baseline_thresholds_t2.json"
 BINS = 30
 
 def build_baseline():
@@ -23,7 +22,7 @@ def build_baseline():
     if not prompt_files:
         raise ValueError("No baseline prompt files found in 'baseline_prompts/'")
 
-    all_scores = defaultdict(list)  # métricas → lista de valores de bootstrap
+    all_scores = defaultdict(list)  # métricas → lista de valores
 
     for fname in prompt_files:
         path = os.path.join(BASELINE_DIR, fname)
@@ -39,17 +38,12 @@ def build_baseline():
         # Embedir salidas
         A_emb, B_emb = embed_outputs(prompt_name, config, output_dir=OUTPUT_DIR)
 
-        # Bootstrap para divergencias
-        bootstrap_scores = evaluate_with_bootstrap(
-            A_emb, B_emb,
-            metrics=config["metrics"],
-            n_iter=N_BOOTSTRAP,
-            bins=BINS
-        )
+        # Calcular divergencias sin bootstrap
+        res = compute_divergence(A_emb, B_emb, metrics=config["metrics"], bins=BINS)
 
         # Acumular resultados
-        for metric, values in bootstrap_scores.items():
-            all_scores[metric].extend(values)
+        for metric, value in res.items():
+            all_scores[metric].append(value)
 
     # Calcular umbrales empíricos
     thresholds = {}
@@ -68,7 +62,7 @@ def build_baseline():
     with open(OUTFILE, "w", encoding="utf-8") as f:
         json.dump(thresholds, f, indent=2)
 
-    print(f"\n Umbrales guardados en {OUTFILE}")
+    print(f"\nUmbrales guardados en {OUTFILE}")
 
 if __name__ == "__main__":
     build_baseline()

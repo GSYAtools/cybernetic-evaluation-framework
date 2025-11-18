@@ -166,12 +166,12 @@ When multiple calibration or test cases are executed, equivalent files will be g
 
 Each result directory includes:
 
-- **Observable outputs (`A_outputs.json`, `B_outputs.json`)** â€“ raw model responses under each input condition.  
-- **Embeddings (`A_emb.npy`, `B_emb.npy`)** â€“ vector representations used for behavioural comparison.  
-- **Reports (`report.json`)** â€“ calibrated divergence values and normalised ratios (R<sub>D</sub>).  
-- **Examples (`examples.json`)** â€“ representative and divergent samples for qualitative inspection.  
-- **Visualisations** â€“ kernel density estimates (`kde_distances.png`) and low-dimensional projections (`t-SNE`, `UMAP`) illustrating observable distributions.  
-- **Bootstrap results** â€“ variability and stability diagnostics for each behavioural measure, including summary statistics and confidence plots.
+- **Observable outputs (`A_outputs.json`, `B_outputs.json`)**: raw model responses under each input condition.  
+- **Embeddings (`A_emb.npy`, `B_emb.npy`)**: vector representations used for behavioural comparison.  
+- **Reports (`report.json`)**: calibrated divergence values and normalised ratios (R<sub>D</sub>).  
+- **Examples (`examples.json`)**: representative and divergent samples for qualitative inspection.  
+- **Visualisations**: kernel density estimates (`kde_distances.png`) and low-dimensional projections (`t-SNE`, `UMAP`) illustrating observable distributions.  
+- **Bootstrap results**: variability and stability diagnostics for each behavioural measure, including summary statistics and confidence plots.
 
 ---
 
@@ -183,5 +183,6 @@ For questions, collaborations or academic inquiries:
 
 **Carlos Mario Braga**  
 [carlosmario.braga1@alu.uclm.es](mailto:carlosmario.braga1@alu.uclm.es)
+
 
 
